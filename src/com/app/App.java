@@ -10,7 +10,18 @@ class App {
 
 		Thread.sleep(400);
 
-		new Thread(new Checker(box,exchanger)).start();
-		new Thread(new Packer(box, exchanger)).start();
+		Checker tc = new Checker(box,exchanger);
+		Packer tp = new Packer(box, exchanger);
+
+		tc.start();
+		tp.start();
+
+		Thread.sleep(8000);
+
+		tc.stop();
+		tp.stop();
+
+
+
 	} 
 }
