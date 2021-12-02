@@ -1,39 +1,41 @@
 package com.app;
 
 import java.util.concurrent.Exchanger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
 * Checker
 */
 public class Checker implements Runnable {
-	private final Exchanger<Box> exchanger; 
+	private final Exchanger<Boolean> exchanger;
+	private final AtomicReference<Boolean> flag = new AtomicReference<Boolean>(false); 
 	private Box box;
-	private int counter;
+	
 
-	public Checker(Exchanger<Box> exchanger) {
+	public Checker(Box box, Exchanger<Boolean> exchanger) {
 		this.exchanger = exchanger;
-		this.box = new Box(true);
-		this.counter = 1;
+		this.box = box;
 	}
 
 	public void addBuld(Box box_a) {
-		box_a.add(counter);
-		System.out.println("The checker set the L: "+counter);
-		counter++;
+		for (int i = 0; i < this.box.getSize(); i++) {
+			System.out.println("The checker set the L: "+i);
+			box_a.add(i);
+		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			while (counter <= this.box.getSize()) {
+			while (true) {
 
-				addBuld(this.box);
+				System.out.println("The checker gives a full box");
+				this.flag.set(exchanger.exchange(this.flag.get()));
+				System.out.println("The checker recives a empty box");
 
-				if(this.box.isEmpty()) {
-					System.out.println("The checker gives a full box");
-					this.box = exchanger.exchange(this.box);
-					System.out.println("The checker recives a empty box");
-					this.counter = 1;
+				if(flag.get()) {
+					addBuld(this.box);
+					Thread.sleep(500);
 				}
 			}
 		} catch (InterruptedException e) {e.printStackTrace();}

@@ -9,36 +9,30 @@ public class Box {
 	private final Stack<Integer> stack = new Stack<Integer>();
 	private final static int MAX_SIZE = 3;
 
-	public Box(boolean isFill) {
-		if(isFill) {
-			for (int i = 0; i < MAX_SIZE; i++) {
-				add(i);
-			}
-		}
-	}
+	public Box() {}
 
-	public synchronized void add(int bulb) {
+	public  void add(int bulb) {
 		if(!isFull()) {
 			stack.push(bulb);
 		}
 	}
 
-	public synchronized Integer remove() {
+	public  Integer remove() {
 		if(!isEmpty()) {
 			return stack.pop();
 		} 
 		return null;
 	}
 
-	public synchronized boolean isFull() {
-		return stack.size() == MAX_SIZE ? true : false;
+	public  boolean isFull() {
+		return (stack.size() == MAX_SIZE) ? true : false;
 	}
 
-	public synchronized boolean isEmpty() {
+	public  boolean isEmpty() {
 		return stack.isEmpty();
 	}
 
-	public synchronized Integer getSize() {
+	public  Integer getSize() {
 		return this.MAX_SIZE;
 	}
 }
