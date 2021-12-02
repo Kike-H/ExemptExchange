@@ -35,9 +35,9 @@ public class Checker extends Thread {
 		try {
 			while (this.alive) {
 
-				System.out.println("The checker gives a full box 📦🔝");
+				System.out.println("The checker gives a full box 📦");
 				this.flag.set(exchanger.exchange(this.flag.get()));
-				System.out.println("The checker recives a empty box 📦🔜");
+				System.out.println("The checker recives a empty box 📦");
 
 				if(flag.get()) {
 					addBuld(this.box);

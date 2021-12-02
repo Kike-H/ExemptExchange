@@ -34,9 +34,9 @@ public class Packer extends Thread {
 		try {
 			
 			while (this.alive) {
-				System.out.println("The packer gives a empty box 📦🔜");
+				System.out.println("The packer gives a empty box 📦");
 				this.flag.set(this.exchanger.exchange(this.flag.get()));
-				System.out.println("The packer recives a full box 📦🔝");
+				System.out.println("The packer recives a full box 📦");
 				
 				if(this.flag.get()) {
 					removeBulb(this.box);
