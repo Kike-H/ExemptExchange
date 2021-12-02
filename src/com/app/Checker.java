@@ -5,31 +5,35 @@ import java.util.concurrent.Exchanger;
 /**
 * Checker
 */
-public class Checker extends Thread {
-	private final Exchanger<Box> exchanger;
+public class Checker implements Runnable {
+	private final Exchanger<Box> exchanger; 
 	private Box box;
 	private int counter;
 
-	public Checker(Box box, Exchanger<Box> exchanger) {
-		this.box = box;
+	public Checker(Exchanger<Box> exchanger) {
 		this.exchanger = exchanger;
+		this.box = new Box(true);
 		this.counter = 1;
+	}
+
+	public void addBuld(Box box_a) {
+		box_a.add(counter);
+		System.out.println("The checker set the L: "+counter);
+		counter++;
 	}
 
 	@Override
 	public void run() {
 		try {
-			while (true) {
-				Box aux = box;
-				Thread.sleep(1000);
-				aux.add(counter);
-				System.out.println("The checker set the L: "+counter);
-				counter++;
-				if(box.isFull()) {
+			while (counter <= this.box.getSize()) {
+
+				addBuld(this.box);
+
+				if(this.box.isEmpty()) {
 					System.out.println("The checker gives a full box");
-					box = exchanger.exchange(aux);
+					this.box = exchanger.exchange(this.box);
 					System.out.println("The checker recives a empty box");
-					counter = 1;
+					this.counter = 1;
 				}
 			}
 		} catch (InterruptedException e) {e.printStackTrace();}

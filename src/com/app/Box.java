@@ -7,10 +7,14 @@ import java.util.Stack;
 */
 public class Box {
 	private final Stack<Integer> stack = new Stack<Integer>();
-	private final int size;
+	private final static int MAX_SIZE = 3;
 
-	public Box(int size) {
-		this.size = size;
+	public Box(boolean isFill) {
+		if(isFill) {
+			for (int i = 0; i < MAX_SIZE; i++) {
+				add(i);
+			}
+		}
 	}
 
 	public synchronized void add(int bulb) {
@@ -27,7 +31,7 @@ public class Box {
 	}
 
 	public synchronized boolean isFull() {
-		return stack.size() == size ? true : false;
+		return stack.size() == MAX_SIZE ? true : false;
 	}
 
 	public synchronized boolean isEmpty() {
@@ -35,6 +39,6 @@ public class Box {
 	}
 
 	public synchronized Integer getSize() {
-		return this.size;
+		return this.MAX_SIZE;
 	}
 }
