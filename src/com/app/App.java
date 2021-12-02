@@ -20,8 +20,5 @@ class App {
 
 		tc.stop();
 		tp.stop();
-
-
-
 	} 
 }

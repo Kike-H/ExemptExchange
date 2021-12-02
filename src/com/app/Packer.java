@@ -12,17 +12,22 @@ public class Packer extends Thread {
 	private final AtomicReference<Boolean> flag = new AtomicReference<Boolean>(true); 
 	private boolean alive;
 	private Box box;
+	private int counter_box;
 
 	public Packer(Box box, Exchanger<Boolean> exchanger) {
 		this.exchanger = exchanger;
 		this.box = box;
 		this.alive = true;
+		this.counter_box = 0;
 	}
 
 	public void removeBulb(Box box_a) {
 		while (!box_a.isEmpty()) {
 			System.out.println("The packer pack the 💡 "+box_a.remove());
 		}
+		this.counter_box++;
+		System.out.printf("Complete num %d box 📦", this.counter_box);
+		System.out.println();
 	}
 
 	public void stopPacker() {
@@ -32,13 +37,10 @@ public class Packer extends Thread {
 	@Override
 	public void run() {
 		try {
-			
 			while (this.alive) {
-				System.out.println("The packer gives a empty box 📦");
 				this.flag.set(this.exchanger.exchange(this.flag.get()));
-				System.out.println("The packer recives a full box 📦");
-				
 				if(this.flag.get()) {
+					System.out.println("Exchange the box 📦");
 					removeBulb(this.box);
 					Thread.sleep(1000);
 				}

@@ -20,7 +20,7 @@ public class Checker extends Thread {
 	}
 
 	public void addBuld(Box box_a) {
-		for (int i = 0; i < this.box.getSize(); i++) {
+		for (int i = 1; i <= this.box.getSize(); i++) {
 			System.out.println("The checker set the 💡: "+i);
 			box_a.add(i);
 		}
@@ -34,11 +34,7 @@ public class Checker extends Thread {
 	public void run() {
 		try {
 			while (this.alive) {
-
-				System.out.println("The checker gives a full box 📦");
 				this.flag.set(exchanger.exchange(this.flag.get()));
-				System.out.println("The checker recives a empty box 📦");
-
 				if(flag.get()) {
 					addBuld(this.box);
 					Thread.sleep(1000);

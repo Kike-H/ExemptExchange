@@ -7,7 +7,7 @@ import java.util.Stack;
 */
 public class Box {
 	private final Stack<Integer> stack = new Stack<Integer>();
-	private final static int MAX_SIZE = 3;
+	private final static int MAX_SIZE = 10;
 
 	public Box() {}
 
